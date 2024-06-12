@@ -1,6 +1,7 @@
 ![Screenshot](https://github.com/sam-pazouki/Event-Manager/assets/68926038/523cdd13-9bbe-4d58-a588-34151b794a76)
 
 Event Manager
+
 Event Manager is a full-stack web application designed to help users manage events effortlessly. It offers a range of features for creating, updating, deleting, and tracking the status of events over time.
 
 Features
