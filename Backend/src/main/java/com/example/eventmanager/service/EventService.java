@@ -1,6 +1,6 @@
 package com.example.eventmanager.service;
 
-import com.example.eventmanager.entity.Event;
+import com.example.eventmanager.model.Event;
 import com.example.eventmanager.repository.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,44 +13,45 @@ public class EventService {
     @Autowired
     private EventRepository eventRepository;
 
+    public List<Event> getAllEvents() {
+        return eventRepository.findAll();
+    }
+
     public Event createEvent(Event event) {
-        if (event.getDataInicial().isAfter(event.getDataFinal())) {
-            throw new IllegalArgumentException("A data de início deve ser anterior à data de término.");
-        }
-        event.setAtivo(false);
         return eventRepository.save(event);
     }
 
-    public void checkAndUpdateEventStatus() {
-        LocalDateTime now = LocalDateTime.now();
-        List<Event> events = eventRepository.findAll();
-        for (Event event : events) {
-            if (now.isAfter(event.getDataInicial()) && now.isBefore(event.getDataFinal())) {
-                event.setAtivo(true);
-            } else {
-                event.setAtivo(false);
-            }
-            eventRepository.save(event);
-        }
-    }
-
-    public List<Event> getAllEvents() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAllEvents'");
-    }
-
-    public Event getEventById(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getEventById'");
-    }
-
     public Event updateEvent(Long id, Event eventDetails) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateEvent'");
+        Event event = eventRepository.findById(id).orElseThrow();
+        event.setNome(eventDetails.getNome());
+        event.setDataInicial(eventDetails.getDataInicial());
+        event.setDataFinal(eventDetails.getDataFinal());
+        event.setAtivo(eventDetails.getAtivo());
+        event.setInstitution(eventDetails.getInstitution());
+        return eventRepository.save(event);
     }
 
     public void deleteEvent(Long id) {
+        Event event = eventRepository.findById(id).orElseThrow();
+        eventRepository.delete(event);
+    }
+
+    public void checkAndActivateEvents() {
+        List<Event> events = eventRepository.findAll();
+        LocalDateTime now = LocalDateTime.now();
+        for (Event event : events) {
+            if (!event.getAtivo() && ((Event) event).getDataInicial().isBefore(now) && event.getDataFinal().isAfter(now)) {
+                event.setAtivo(true);
+                eventRepository.save(event);
+            } else if (event.getAtivo() && event.getDataFinal().isBefore(now)) {
+                event.setAtivo(false);
+                eventRepository.save(event);
+            }
+        }
+    }
+
+    public void checkAndUpdateEventStatus() {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteEvent'");
+        throw new UnsupportedOperationException("Unimplemented method 'checkAndUpdateEventStatus'");
     }
 }

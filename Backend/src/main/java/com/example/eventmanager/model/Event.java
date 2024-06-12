@@ -1,37 +1,16 @@
-package com.example.eventmanager.entity;
+package com.example.eventmanager.model;
 
-import javax.persistence.*;
 import java.time.LocalDateTime;
-import javax.persistence.GenerationType;
 
-
-@Entity
 public class Event {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    
-    private Long id;
-    
     private String nome;
     private LocalDateTime dataInicial;
     private LocalDateTime dataFinal;
     private boolean ativo;
-
-    @ManyToOne
-    @JoinColumn(name = "institution_id")
-    private Institution institution;
-
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+    private String institution;
 
     public String getNome() {
-        return nome;
+        return this.nome;
     }
 
     public void setNome(String nome) {
@@ -39,7 +18,7 @@ public class Event {
     }
 
     public LocalDateTime getDataInicial() {
-        return dataInicial;
+        return this.dataInicial;
     }
 
     public void setDataInicial(LocalDateTime dataInicial) {
@@ -47,26 +26,26 @@ public class Event {
     }
 
     public LocalDateTime getDataFinal() {
-        return dataFinal;
+        return this.dataFinal;
     }
 
     public void setDataFinal(LocalDateTime dataFinal) {
         this.dataFinal = dataFinal;
     }
 
-    public boolean isAtivo() {
-        return ativo;
+    public boolean getAtivo() {
+        return this.ativo;
     }
 
     public void setAtivo(boolean ativo) {
         this.ativo = ativo;
     }
 
-    public Institution getInstitution() {
-        return institution;
+    public String getInstitution() {
+        return this.institution;
     }
 
-    public void setInstitution(Institution institution) {
+    public void setInstitution(String institution) {
         this.institution = institution;
     }
 }

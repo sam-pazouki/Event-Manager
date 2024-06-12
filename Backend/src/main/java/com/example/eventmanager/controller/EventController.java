@@ -1,8 +1,9 @@
 package com.example.eventmanager.controller;
 
-import com.example.eventmanager.entity.Event;
+import com.example.eventmanager.model.Event;
 import com.example.eventmanager.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,28 +14,25 @@ public class EventController {
     @Autowired
     private EventService eventService;
 
-    @PostMapping
-    public Event createEvent(@RequestBody Event event) {
-        return eventService.createEvent(event);
-    }
-
     @GetMapping
     public List<Event> getAllEvents() {
         return eventService.getAllEvents();
     }
 
-    @GetMapping("/{id}")
-    public Event getEventById(@PathVariable Long id) {
-        return eventService.getEventById(id);
+    @PostMapping
+    public Event createEvent(@RequestBody Event event) {
+        return eventService.createEvent(event);
     }
 
     @PutMapping("/{id}")
-    public Event updateEvent(@PathVariable Long id, @RequestBody Event eventDetails) {
-        return eventService.updateEvent(id, eventDetails);
+    public ResponseEntity<Event> updateEvent(@PathVariable Long id, @RequestBody Event eventDetails) {
+        Event updatedEvent = eventService.updateEvent(id, eventDetails);
+        return ResponseEntity.ok(updatedEvent);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteEvent(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteEvent(@PathVariable Long id) {
         eventService.deleteEvent(id);
+        return ResponseEntity.noContent().build();
     }
 }

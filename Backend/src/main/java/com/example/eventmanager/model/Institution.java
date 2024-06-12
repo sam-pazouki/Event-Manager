@@ -1,31 +1,18 @@
-package com.example.eventmanager.entity;
+package com.example.eventmanager.model;
 
 import javax.persistence.*;
 import java.util.List;
-import javax.persistence.GenerationType;
-
 
 @Entity
 public class Institution {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
     private String nome;
     private String tipo;
-
-    @OneToMany(mappedBy = "institution")
+    
+    @OneToMany(mappedBy = "institution", cascade = CascadeType.ALL)
     private List<Event> events;
-
-    // Getters and setters
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getNome() {
         return nome;
@@ -41,13 +28,5 @@ public class Institution {
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
-    }
-
-    public List<Event> getEvents() {
-        return events;
-    }
-
-    public void setEvents(List<Event> events) {
-        this.events = events;
     }
 }
