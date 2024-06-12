@@ -10,7 +10,8 @@ Features
 - User Interface: Provides an intuitive and user-friendly interface for managing events.
 - Responsive Design: Optimized for various screen sizes, ensuring a seamless experience across devices.
 
-Technologies Used
+Technologies Used:
+
 Backend
 - Java: Backend logic and API development.
 - Spring Boot: Framework for building robust and scalable web applications.
